@@ -1,9 +1,9 @@
 {
- "version": "2.8.3",
- "code": 283,
+ "version": "2.8.4",
+ "code": 284,
  "apk": "https://github.com/Haidar-Hacking/Sirat-app/raw/main/sirat-almuminin.apk",
  "notes": [
-  "حذف ملاحظة التلاوة تحت أزرار القارئ",
-  "القارئ كريم منصوري"
+  "حذف «تفسيري» من المصحف والمفضلة",
+  "حذف ملاحظة التلاوة تحت أزرار القارئ"
  ]
 }
