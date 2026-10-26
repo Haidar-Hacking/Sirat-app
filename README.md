@@ -8,7 +8,7 @@
 
 ### [⬇️ تحميل التطبيق (APK)](https://github.com/Haidar-Hacking/Sirat-app/raw/main/sirat-almuminin.apk)
 
-الإصدار **2.8.4** · لأندرويد 6 وأحدث · الحجم أقل من 2 ميغابايت
+الإصدار **2.9.0** · لأندرويد 6 وأحدث · الحجم أقل من 2 ميغابايت
 
 </div>
 
@@ -39,7 +39,7 @@
 <p align="center">
 <img src="screenshots/1-home.jpg" width="200" alt="الرئيسية">
 <img src="screenshots/2-dua.jpg" width="200" alt="الأدعية">
-<img src="screenshots/3-mushaf.jpg" width="200" alt="المصحف">
+<img src="screenshots/3-mushaf.jpg" width="200" alt="المزيد">
 <img src="screenshots/4-day.jpg" width="200" alt="أوقات الصلاة">
 </p>
 
