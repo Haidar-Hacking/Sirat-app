@@ -1,12 +1,8 @@
 {
- "version": "3.0.0",
- "code": 300,
- "apk": "https://github.com/Haidar-Hacking/Sirat-app/raw/main/sirat-almuminin.apk",
- "notes": [
-  "صفحة «اليوم» الجديدة: كل أعمال اليوم في خانة واحدة مرتبة",
-  "تاريخ اليوم بالهجري والميلادي مع المناسبة",
-  "الصلوات الخمس مع تعقيب كل صلاة، والتعقيبات العامة",
-  "دعاء اليوم وزيارته، وصلاة اليوم المخصوصة",
-  "صفحة حفظ من القرآن لكل يوم"
- ]
+  "version": "3.0.1",
+  "code": 301,
+  "apk": "https://github.com/Haidar-Hacking/Sirat-app/raw/main/sirat-almuminin.apk",
+  "notes": [
+    "إرجاع صفحة «اليوم» كما كانت قبل التغيير الأخير"
+  ]
 }
