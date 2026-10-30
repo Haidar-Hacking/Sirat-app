@@ -1,8 +1,8 @@
 {
-  "version": "3.0.1",
-  "code": 301,
+  "version": "3.0.2",
+  "code": 302,
   "apk": "https://github.com/Haidar-Hacking/Sirat-app/raw/main/sirat-almuminin.apk",
   "notes": [
-    "إرجاع صفحة «اليوم» كما كانت قبل التغيير الأخير"
+    "حذف قسم «اليوم» من التطبيق"
   ]
 }
