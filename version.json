@@ -1,8 +1,8 @@
 {
-  "version": "3.0.3",
-  "code": 303,
+  "version": "3.1.0",
+  "code": 310,
   "apk": "https://github.com/Haidar-Hacking/Sirat-app/raw/main/sirat-almuminin.apk",
   "notes": [
-    "إرجاع قسم «اليوم» كما كان"
+    "دليل استخدام مصوّر يظهر عند فتح التطبيق أول مرة، ويُفتح من «المزيد»"
   ]
 }
