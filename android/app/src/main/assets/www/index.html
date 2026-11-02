@@ -3813,6 +3813,47 @@ renderHome=function(){
   b.classList.toggle('on',state.tab==='mus');
 })();
 
+/* ---------- تحديد الموقع تلقائياً ----------
+   عند فتح التطبيق يحدّد موقعك ويحسب أوقات الصلاة عليه، ويسمّيه باسم أقرب مدينة.
+   إذا اخترتَ مدينة أخرى من القائمة يتوقف التحديد التلقائي، ويعود إذا اخترت «موقعي». */
+var AUTO_LOC=true;
+try{AUTO_LOC=localStorage.getItem('sirat:autoloc')!=='0';}catch(e){}
+function geoLabel(lat,lng){
+  var best=null,bd=1e9;
+  for(var i=0;i<CITIES.length;i++){if(i===GEO_CITY)continue;var d=kmTo(lat,lng,CITIES[i][1],CITIES[i][2]);if(d<bd){bd=d;best=CITIES[i][0];}}
+  return (best&&bd<=35)?best:'موقعي الحالي';
+}
+function geoName(){if(GEO_CITY!=null){var c=CITIES[GEO_CITY];c[0]='📍 '+geoLabel(c[1],c[2]);}}
+geoName();
+function autoLocate(){
+  if(!AUTO_LOC||!navigator.geolocation)return;
+  try{
+    navigator.geolocation.getCurrentPosition(function(p){
+      var before=CITIES[cityIdx]?CITIES[cityIdx].join('|'):'';
+      setGeoCity(p.coords.latitude,p.coords.longitude);geoName();
+      if(CITIES[cityIdx].join('|')===before)return;
+      if(typeof adhSync==='function')adhSync();
+      var a=document.activeElement;
+      if(a&&view.contains(a)&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.tagName==='SELECT'))return;
+      if(state.tab==='home'||state.tab==='times'||state.tab==='day')render();
+    },function(){},GEO_OPT);
+  }catch(e){}
+}
+view.addEventListener('change',function(e){
+  var t=e.target;if(!t||!t.getAttribute||!t.getAttribute('data-city'))return;
+  AUTO_LOC=(GEO_CITY!=null&&+t.value===GEO_CITY);
+  try{localStorage.setItem('sirat:autoloc',AUTO_LOC?'1':'0');}catch(x){}
+},true);
+view.addEventListener('click',function(e){
+  var t=e.target.closest&&e.target.closest('[data-tmgeo]');if(!t)return;
+  AUTO_LOC=true;try{localStorage.setItem('sirat:autoloc','1');}catch(x){}
+  setTimeout(geoName,4000);
+},true);
+var _glSet=setGeoCity;setGeoCity=function(lat,lng){_glSet(lat,lng);geoName();};
+setTimeout(autoLocate,900);
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&Date.now()-(autoLocate._t||0)>15*60000){autoLocate._t=Date.now();autoLocate();}});
+autoLocate._t=Date.now();
+
 /* ---------- خاص بتطبيق أندرويد: النسخ الاحتياطي وتنبيهات الأذان ---------- */
 (function(){
   var N=window.RaqeebNative;if(!N)return;
@@ -3922,7 +3963,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.2.0';
+var APP_VERSION='3.2.1';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
