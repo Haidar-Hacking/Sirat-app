@@ -945,8 +945,8 @@ body:not(.is-home) .setbtn{top:50%;transform:translateY(-50%)}
 .ttx span{font-size:13px;color:var(--muted)}
 .tchev{flex:none;color:var(--muted)}
 /* أدوات الرئيسية بشكل مشغّل التطبيقات */
-.htools{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px 6px;padding:16px 10px;border-radius:var(--r);background:var(--surface);box-shadow:var(--sh)}
-@media (min-width:900px){.htools{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.htools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 6px;padding:16px 10px;border-radius:var(--r);background:var(--surface);box-shadow:var(--sh)}
+@media (min-width:900px){.htools{grid-template-columns:repeat(8,minmax(0,1fr))}}
 .htool{display:flex;flex-direction:column;align-items:center;gap:7px;border:0;background:none;color:var(--fg);padding:4px 0;min-height:84px;border-radius:16px}
 .htool .htic{width:54px;height:54px;border-radius:18px;box-shadow:0 8px 18px -10px color-mix(in srgb,var(--emerald) 80%,transparent)}
 .htool .hti{width:27px;height:27px}
@@ -1104,7 +1104,7 @@ body.hasqp .qauto{bottom:calc(200px + env(safe-area-inset-bottom,0px))}
   .hero{grid-template-columns:auto 1fr!important;padding:12px 16px}
   .hring{width:90px;height:90px}
   .hr-t b{font-size:24px}
-  .htools{grid-template-columns:repeat(5,minmax(0,1fr))!important;padding:10px 6px}
+  .htools{grid-template-columns:repeat(8,minmax(0,1fr))!important;padding:10px 6px}
   .htool{min-height:70px}.htool .htic{width:44px;height:44px}
   #view[data-v="home"]{display:grid!important;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
   #view[data-v="home"]>.hero{grid-column:1}
@@ -3340,7 +3340,7 @@ function renderSettings(){
 }
 
 /* ---------- الرئيسية بترتيب جديد ---------- */
-var HOME_TOOLS=[['day','أعمال اليوم',HICON.day],['mus','المصحف',HICON.mus],['dua','الأدعية',HICON.dua],['times','المواقيت','<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'],['convert','محوّل التاريخ','<path d="M4 8h13l-3-3M20 16H7l3 3"/>']];
+var HOME_TOOLS=[['day','أعمال اليوم',HICON.day],['mus','المصحف',HICON.mus],['dua','الأدعية',HICON.dua],['times','المواقيت','<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'],['qibla','القبلة',HICON.qibla],['tasbih','المسبحة',HICON.tasbih],['cal','التقويم',HICON.cal],['more','المزيد','<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>']];
 renderHome=function(){
   var k=state.today,d=parseKey(k),hp=hparts(d),n=doneCount(k),p=Math.round(n/TOTAL*100),C=2*Math.PI*52;
   var wc=parseInt(tv(k,'wcount'),10)||0;
@@ -3963,7 +3963,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.2.1';
+var APP_VERSION='3.2.2';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
