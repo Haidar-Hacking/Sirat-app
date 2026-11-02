@@ -482,7 +482,7 @@ body{background:radial-gradient(120% 60% at 50% -10%,color-mix(in srgb,var(--eme
 .mode{width:100%;justify-content:stretch;max-width:340px}
 .mode .mb{flex:1}
 .pals .wrap{padding-block:10px}
-.tabs .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;overflow:visible}
+.tabs .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;overflow:visible}
 .tab{flex:none;padding:0 2px;font-size:13px;white-space:nowrap;min-width:0}
 @media (max-width:380px){.tab{font-size:12px}}
 .pals .wrap{gap:6px}.pal{padding:5px 6px;gap:2px}.pal i{width:11px;height:11px}
@@ -1361,8 +1361,8 @@ body.gdopen{overflow:hidden}
   <nav class="tabs" aria-label="العروض">
     <div class="wrap" role="tablist">
       <button type="button" class="tab" role="tab" id="tab-home" data-tab="home" aria-selected="true"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6 8 6v8.5H4z"/><path d="M10 19.5v-5h4v5"/></svg><span>الرئيسية</span></button>
-      <button type="button" class="tab" role="tab" id="tab-day" data-tab="day" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14v12.5H5z"/><path d="M5 10h14M9 4v4M15 4v4"/><path d="M9 14.5l2 2 4-4"/></svg><span>اليوم</span></button>
-      <button type="button" class="tab" role="tab" id="tab-dua" data-tab="dua" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 20c-2.5-1.5-4-4-4-7V7l3-2 3 2v6"/><path d="M16 20c2.5-1.5 4-4 4-7V7l-3-2-3 2v6"/><path d="M10 13v-2M14 13v-2"/></svg><span>الأدعية</span></button>
+      <button type="button" class="tab" role="tab" id="tab-day" hidden data-tab="day" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14v12.5H5z"/><path d="M5 10h14M9 4v4M15 4v4"/><path d="M9 14.5l2 2 4-4"/></svg><span>اليوم</span></button>
+      <button type="button" class="tab" role="tab" id="tab-dua" data-tab="dua" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 20c-2.5-1.5-4-4-4-7V7l3-2 3 2v6"/><path d="M16 20c2.5-1.5 4-4 4-7V7l-3-2-3 2v6"/><path d="M10 13v-2M14 13v-2"/></svg><span>الأعمال والأدعية</span></button>
       <button type="button" class="tab" role="tab" id="tab-mus" data-tab="mus" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5z"/><path d="M12 6.5V19"/></svg><span>المصحف</span></button>
       <button type="button" class="tab" role="tab" id="tab-more" data-tab="more" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.8"/></svg><span>المزيد</span></button>
       <button type="button" class="tab" role="tab" id="tab-cal" hidden data-tab="cal" aria-selected="false"><svg class="tbi" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/><circle cx="12" cy="14.5" r="1.4"/></svg><span>التقويم</span></button>
@@ -3340,7 +3340,7 @@ function renderSettings(){
 }
 
 /* ---------- الرئيسية بترتيب جديد ---------- */
-var HOME_TOOLS=[['day','أعمال اليوم',HICON.day],['mus','المصحف',HICON.mus],['dua','الأدعية',HICON.dua],['times','المواقيت','<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'],['qibla','القبلة',HICON.qibla],['tasbih','المسبحة',HICON.tasbih],['cal','التقويم',HICON.cal],['more','المزيد','<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>']];
+var HOME_TOOLS=[['dua','الأعمال والأدعية',HICON.dua],['mus','المصحف',HICON.mus],['times','المواقيت','<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'],['cal','التقويم','<rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M9 4v3M15 4v3"/>'],['qibla','القبلة',HICON.qibla],['tasbih','المسبحة',HICON.tasbih],['weekdays','أعمال الأسبوع',HICON.day],['more','المزيد','<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>']];
 renderHome=function(){
   var k=state.today,d=parseKey(k),hp=hparts(d),n=doneCount(k),p=Math.round(n/TOTAL*100),C=2*Math.PI*52;
   var wc=parseInt(tv(k,'wcount'),10)||0;
@@ -3651,7 +3651,7 @@ function markNextPrayer(){
 var HN_OBS=('MutationObserver' in window)?new MutationObserver(function(ms){var el=document.getElementById('hncd');if(!el)return;el.classList.remove('tick');void el.offsetWidth;el.classList.add('tick');}):null;
 
 /* ربط كل ذلك بالعرض */
-var TAB_ORDER=['home','day','dua','mus','more'],LAST_TAB=state.tab;
+var TAB_ORDER=['home','dua','mus','more'],LAST_TAB=state.tab;
 function viewSig(){var s=state.tab;try{s+='|'+(LIB.open||'');}catch(e){}try{s+='|'+MUS.mode+'|'+MUS.t+'|'+MUS.n;}catch(e){}return s;}
 var LAST_SIG=viewSig();
 var _aRender=render;
@@ -3680,10 +3680,10 @@ setTimeout(moveInd,60);
   var G=[
     {w:1,t:'أهلاً بك في صراط المؤمنين',p:'جولة قصيرة تعرّفك بأقسام التطبيق وطريقة استخدامها، مشروحة بالصور.',b:['اسحب يميناً ويساراً أو اضغط «التالي» للانتقال بين الخطوات.','الأرقام على الصور تدلّك على مكان كل شيء، وتقابلها الأرقام في الشرح.','يمكنك تخطّي الدليل الآن، والرجوع إليه متى شئت من «المزيد» ثم «دليل الاستخدام».']},
     {i:'home',t:'الرئيسية',p:'أول ما تراه عند فتح التطبيق.',b:['في الأعلى تاريخ اليوم بالهجري والميلادي، ونسبة إنجازك لأعمال اليوم.','بطاقة «الصلاة القادمة» تعرض اسم الصلاة ووقتها والوقت الباقي عليها.','اضغط أي أيقونة من الأدوات لتفتح قسمها مباشرة.']},
-    {i:'day',t:'أعمال اليوم',p:'من خانة «اليوم» في الشريط السفلي.',b:['اضغط على العمل بعد أن تؤدّيه  فتظهر علامة ✓ وتزيد نسبة الإنجاز.','استعمل السهمين بجانب التاريخ في أعلى الصفحة للتنقل بين الأيام.','اكتب ملاحظاتك في آخر الصفحة، وتُحفظ تلقائياً.']},
+    {i:'day',t:'الأعمال والأدعية',p:'من خانة «الأعمال والأدعية» في الشريط السفلي.',b:['في الأعلى تاريخ اليوم ومناسبته، واستعمل السهمين للتنقل بين الأيام.','تحتها «مفاتيح اليوم»: دعاء اليوم وزيارته وأعماله، وأزرار الزيارات والأدعية وأعمال الشهور.','وفي آخر الصفحة أوقات الصلاة وتنبيهات الأذان.']},
     {i:'mus',t:'المصحف الشريف',p:'من خانة «المصحف» في الشريط السفلي.',b:['ابحث باسم السورة أو رقمها أو بكلمة من الآية.','تصفّح بالسور أو الأجزاء أو الصفحات، أو اكتب رقم الصفحة (١ إلى ٦٠٤) واضغط «افتح».']},
     {i:'musread',t:'القراءة والاستماع',p:'بعد فتح أي سورة أو صفحة.',b:['اختر القارئ، ثم اضغط «استمع» لتشغيل التلاوة.','اضغط على أي آية لتبدأ التلاوة منها أو لتضع علامة القراءة عندها.','زر «تمرير تلقائي» ينزل بالصفحة وحده أثناء القراءة، وزرّا «أ+» و«أ−» لتكبير الخط وتصغيره.']},
-    {i:'dua',t:'الأدعية والزيارات',p:'من خانة «الأدعية» في الشريط السفلي.',b:['«اليوم» يعرض لك دعاء اليوم وزيارته وأعماله.','تنقّل بين الزيارات والأدعية وأدعية الأيام من الأزرار في الأعلى، أو ابحث بالاسم.','اضغط على أي دعاء لتقرأه كاملاً.']},
+    {i:'dua',t:'الأدعية والزيارات',p:'من خانة «الأعمال والأدعية» في الشريط السفلي.',b:['«اليوم» يعرض لك دعاء اليوم وزيارته وأعماله.','تنقّل بين الزيارات والأدعية وأدعية الأيام من الأزرار في الأعلى، أو ابحث بالاسم.','اضغط على أي دعاء لتقرأه كاملاً.']},
     {i:'times',t:'أوقات الصلاة والأذان',p:'من أيقونة «المواقيت» في الرئيسية.',b:['اختر مدينتك من القائمة، أو اضغط «حدّد موقعي».','الأوقات حسب تقويم مكتب السيد السيستاني، مع جدول الشهر وإمساكية رمضان.','من هذه الصفحة تفعّل تنبيه الأذان وتجرّبه، ليصلك الأذان عند دخول الوقت.']},
     {i:'more',t:'المزيد',p:'من خانة «المزيد» في الشريط السفلي.',b:['فيها كل الأدوات: القبلة، والمسبحة، والنوافل، والتعقيبات، وأعمال الجمعة، والتقويم، والمفضلة.','من «الإعدادات» تغيّر المظهر والمدينة، وتحفظ نسخة احتياطية من سجلّك.','وهنا تجد «دليل الاستخدام» إن أردت الرجوع إليه.']}
   ];
@@ -3854,6 +3854,31 @@ setTimeout(autoLocate,900);
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&Date.now()-(autoLocate._t||0)>15*60000){autoLocate._t=Date.now();autoLocate();}});
 autoLocate._t=Date.now();
 
+/* ---------- الأعمال والأدعية في زر واحد ----------
+   صفحة «اليوم» وصفحة «الأدعية» صارتا صفحة واحدة:
+   التاريخ والمناسبة، ثم البحث والأقسام ومفاتيح اليوم، ثم أوقات الصلاة. */
+var _mgRender=render;
+render=function(){
+  if(state.tab==='day'){state.tab='dua';if(typeof LIB==='object'){LIB.open=null;LIB.cat='home';LIB.q='';}}
+  _mgRender();
+};
+var _mgDua=renderDua;
+renderDua=function(){
+  _mgDua();
+  if(state.tab!=='dua'||typeof LIB!=='object'||LIB.open||LIB.q||LIB.cat!=='home')return;
+  var k=state.cur,d=parseKey(k),today=keyOf(new Date());
+  var top='<div class="datebar">'
+    +'<button type="button" class="icon" data-shift="-1" aria-label="اليوم السابق"><svg width="20" height="20" aria-hidden="true"><use href="#cr"></use></svg></button>'
+    +leaf(d)
+    +'<button type="button" class="icon" data-shift="1" aria-label="اليوم التالي"><svg width="20" height="20" aria-hidden="true"><use href="#cl"></use></svg></button></div>';
+  if(k!==today)top+='<button type="button" class="todaybtn" data-today="1">العودة إلى اليوم</button>';
+  var oc=occasions(d);
+  if(oc.length)top+='<section class="card hl" aria-label="مناسبة اليوم">'+sec(oc.length>1?'مناسبات اليوم':'مناسبة اليوم')+oc.map(function(t){return '<p style="margin:0;font-weight:700;font-size:18px">'+esc(t)+'</p>';}).join('')+'</section>';
+  view.insertAdjacentHTML('afterbegin',top);
+  view.insertAdjacentHTML('beforeend',prayerCard(d));
+  if(typeof markNextPrayer==='function')try{markNextPrayer();}catch(e){}
+};
+
 /* ---------- خاص بتطبيق أندرويد: النسخ الاحتياطي وتنبيهات الأذان ---------- */
 (function(){
   var N=window.RaqeebNative;if(!N)return;
@@ -3963,7 +3988,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.2.2';
+var APP_VERSION='3.3.0';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
