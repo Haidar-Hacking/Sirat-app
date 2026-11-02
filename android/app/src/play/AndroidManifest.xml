@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- نسخة Google Play: متجر بلاي يقيّد USE_EXACT_ALARM بتطبيقات المنبّه والتقويم،
+     فنطلب SCHEDULE_EXACT_ALARM ويفعّله المستخدم من إعدادات التطبيق إذا أراد الأذان بالدقيقة. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+</manifest>

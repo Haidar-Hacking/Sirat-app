@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.application'
+}
+
+// رقم الإصدار: ارفعه قبل كل تحديث، ويجب أن يطابق APP_VERSION في assets/www/index.html
+def appVersionName = "3.2.0"
+def appVersionCode = 320
+
+// التوقيع: يُقرأ من متغيرات البيئة (أسرار GitHub). إذا لم توجد يُبنى ملف غير موقّع.
+def ksFile = System.getenv("KEYSTORE_FILE")
+def ksPass = System.getenv("KEYSTORE_PASSWORD")
+def canSign = ksFile && ksPass && file(ksFile).exists()
+
+android {
+    namespace 'com.haydar.sirat'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.haydar.sirat"
+        minSdk 23
+        targetSdk 36
+        versionCode appVersionCode
+        versionName appVersionName
+    }
+
+    flavorDimensions = ["store"]
+    productFlavors {
+        // نسخة GitHub: ملف APK يحدّث نفسه من صفحة التطبيق على GitHub
+        github { dimension "store" }
+        // نسخة متجر Google Play: ملف AAB، والتحديث من المتجر نفسه
+        play { dimension "store" }
+    }
+
+    if (canSign) {
+        signingConfigs {
+            release {
+                storeFile file(ksFile)
+                storePassword ksPass
+                keyAlias "sirat"
+                keyPassword ksPass
+                enableV1Signing true
+                enableV2Signing true
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (canSign) signingConfig signingConfigs.release
+        }
+    }
+
+    androidResources {
+        noCompress += ['mp3', 'woff', 'json']
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
