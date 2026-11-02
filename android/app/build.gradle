@@ -30,7 +30,8 @@ android {
         // نسخة متجر Google Play: ملف AAB، والتحديث من المتجر نفسه
         // متجر بلاي يطلب أندرويد 7 (SDK 24) كحد أدنى لميزة «الحماية التلقائية»
         // اسم الحزمة في متجر بلاي هو com.haider.sirat كما أُنشئ التطبيق في Play Console
-        play { dimension "store"; minSdk 24; applicationId "com.haider.sirat" }
+        // ورقم إصدار بلاي = 1000 + رقم الإصدار، حتى لا يتكرر رقم سبق رفعه إلى المتجر
+        play { dimension "store"; minSdk 24; applicationId "com.haider.sirat"; versionCode 1000 + appVersionCode }
     }
 
     if (canSign) {
