@@ -1,0 +1,32 @@
+version: 2.10.0
+apkFileName: sirat-almuminin.apk
+isFrameworkApk: false
+usesFramework:
+  ids:
+  - 1
+  tag: null
+sdkInfo:
+  minSdkVersion: 23
+  targetSdkVersion: 36
+packageInfo:
+  forcedPackageId: 127
+  renameManifestPackage: null
+versionInfo:
+  versionCode: 311
+  versionName: 3.1.1
+resourcesAreCompressed: false
+sharedLibrary: false
+sparseResources: false
+doNotCompress:
+- resources.arsc
+- png
+- mp3
+- assets/www/fonts/amiri-400.woff
+- assets/www/fonts/amiri-700.woff
+- assets/www/fonts/amiriquran.woff
+- assets/www/fonts/plex-400.woff
+- assets/www/fonts/plex-500.woff
+- assets/www/fonts/plex-600.woff
+- assets/www/fonts/plex-700.woff
+- assets/www/fonts/reemkufi.woff
+- assets/www/fonts/ruqaa-700.woff

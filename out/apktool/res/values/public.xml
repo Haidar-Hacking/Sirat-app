@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="color" name="bg" id="0x7f010000" />
+    <public type="color" name="brand" id="0x7f010001" />
+    <public type="color" name="ic_bg" id="0x7f010002" />
+    <public type="drawable" name="ic_stat" id="0x7f020000" />
+    <public type="mipmap" name="ic_launcher" id="0x7f030000" />
+    <public type="mipmap" name="ic_launcher_fg" id="0x7f030001" />
+    <public type="raw" name="adhan" id="0x7f040000" />
+    <public type="string" name="app_name" id="0x7f050000" />
+    <public type="style" name="AppTheme" id="0x7f060000" />
+</resources>
