@@ -113,6 +113,10 @@ main{padding-block:16px 28px;display:flex;flex-direction:column;gap:14px}
 .muscnt span{font-size:9.5px;opacity:.85;line-height:1.2}
 .muscnt.bump{animation:navPop .3s ease}
 @media (min-width:761px){.muscnt{bottom:24px}}
+.allbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.allbtn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border-radius:16px;border:0;background:var(--emerald);color:var(--on-emerald);font-weight:700;font-size:16px;box-shadow:0 8px 18px -12px rgba(0,0,0,.5)}
+.allbtn svg{width:22px;height:22px;fill:none;stroke:var(--gold-soft);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.alltitle{margin:4px 2px 0;font-family:var(--font-display);font-size:24px;color:var(--emerald)}
 /* شريط حديث اليوم */
 .hdt{cursor:pointer}
 .hdt-i small{font-size:12.5px;color:var(--muted);font-weight:500}
@@ -3133,7 +3137,7 @@ view.addEventListener('input',function(e){
 view.addEventListener('click',function(e){
   var t=e.target.closest&&e.target.closest('[data-libopen],[data-libcat],[data-libback],[data-libfav],[data-libfs],[data-libshare],[data-libm],[data-libgo],[data-libauto]');if(!t)return;var v;
   if((v=t.getAttribute('data-libopen'))||(v=t.getAttribute('data-libgo'))){LIB.open=v;state.tab='dua';render();window.scrollTo(0,0);return;}
-  if((v=t.getAttribute('data-libcat'))){LIB.cat=v;LIB.q='';LIB.open=null;render();return;}
+  if((v=t.getAttribute('data-libcat'))){LIB.cat=v;LIB.q='';LIB.open=null;render();if(t.classList.contains('allbtn'))window.scrollTo(0,0);return;}
   if(t.hasAttribute('data-libback')){LIB.open=null;render();window.scrollTo(0,0);return;}
   if(t.hasAttribute('data-libauto')){libAuto((LIB.as+1)%4);return;}
   if((v=t.getAttribute('data-libm'))){LIB.am=+v;libBody();return;}
@@ -3875,9 +3879,25 @@ renderDua=function(){
   if(k!==today)top+='<button type="button" class="todaybtn" data-today="1">العودة إلى اليوم</button>';
   var oc=occasions(d);
   if(oc.length)top+='<section class="card hl" aria-label="مناسبة اليوم">'+sec(oc.length>1?'مناسبات اليوم':'مناسبة اليوم')+oc.map(function(t){return '<p style="margin:0;font-weight:700;font-size:18px">'+esc(t)+'</p>';}).join('')+'</section>';
+  top+='<div class="allbtns"><button type="button" class="allbtn" data-libcat="alldua"><svg viewBox="0 0 24 24" aria-hidden="true">'+HICON.dua+'</svg><span>إظهار كل الأدعية</span></button><button type="button" class="allbtn" data-libcat="ziyarat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M6 20V10l6-5 6 5v10"/><path d="M10 20v-5a2 2 0 0 1 4 0v5"/></svg><span>إظهار كل الزيارات</span></button></div>';
   view.insertAdjacentHTML('afterbegin',top);
   view.insertAdjacentHTML('beforeend',prayerCard(d));
   if(typeof markNextPrayer==='function')try{markNextPrayer();}catch(e){}
+};
+
+/* «إظهار كل الأدعية»: كل الأدعية من كل الأقسام في صفحة واحدة، مقسّمة بعناوين */
+var _allList=libListHTML;
+libListHTML=function(cat){
+  if(cat!=='alldua')return _allList(cat);
+  var groups=[['dua','الأدعية'],['days','أدعية الأيام'],['munajat','المناجاة'],['taqibat','التعقيبات'],['nawafil','النوافل'],['jumua','أعمال يوم الجمعة']];
+  var o='<h2 class="alltitle">كل الأدعية</h2>',n=0;
+  groups.forEach(function(g){
+    var items=libFind(function(x){return x.c===g[0];});
+    if(g[0]==='days')items.sort(function(a,b){return ((a.wd+1)%7)-((b.wd+1)%7);});
+    if(!items.length)return;n+=items.length;
+    o+='<section class="card">'+sec(g[1]+' · '+ar(items.length))+'<div class="librows">'+items.map(function(x){return libRow(x,'');}).join('')+'</div></section>';
+  });
+  return n?o:'<section class="card"><p class="hint">لا يوجد محتوى هنا.</p></section>';
 };
 
 /* ---------- خاص بتطبيق أندرويد: النسخ الاحتياطي وتنبيهات الأذان ---------- */
@@ -3989,7 +4009,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.6.0';
+var APP_VERSION='3.6.1';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
