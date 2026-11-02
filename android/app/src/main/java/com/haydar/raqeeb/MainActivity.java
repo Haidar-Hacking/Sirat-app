@@ -91,7 +91,12 @@ public class MainActivity extends Activity {
         this.web.setWebViewClient(new WebViewClient() {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView webView, WebResourceRequest webResourceRequest) {
-                return MainActivity.this.serve(webResourceRequest.getUrl());
+                Uri u = webResourceRequest.getUrl();
+                if (OfflineAudio.isAudioHost(u.getHost())) {
+                    // تلاوة محفوظة على الهاتف؟ تُشغَّل منه بدون إنترنت
+                    return OfflineAudio.serve(MainActivity.this, u.toString(), webResourceRequest.getRequestHeaders());
+                }
+                return MainActivity.this.serve(u);
             }
 
             @Override
@@ -320,6 +325,63 @@ public class MainActivity extends Activity {
                 Adhan.show(this, "حان الآن وقت الصلاة", "تجربة صوت الأذان في صراط المؤمنين", 9999);
             } else if ("settings".equals(optString)) {
                 openNotificationSettings();
+            } else if ("dl".equals(optString)) {
+                final String url = jSONObject.optString("u");
+                if (url.startsWith("https://") && OfflineAudio.isAudioHost(Uri.parse(url).getHost())) {
+                    OfflineAudio.download(this, url, new OfflineAudio.Listener() {
+                        @Override
+                        public void progress(final String u, final int p, final boolean done, final String err) {
+                            ui.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        JSONObject o = new JSONObject();
+                                        o.put("t", "dl");
+                                        o.put("u", u);
+                                        o.put("p", p);
+                                        o.put("done", done);
+                                        if (err != null) o.put("err", err);
+                                        send(o);
+                                    } catch (Exception ignored) {
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            } else if ("dlstat".equals(optString)) {
+                org.json.JSONArray list = jSONObject.optJSONArray("l");
+                org.json.JSONArray have = new org.json.JSONArray();
+                org.json.JSONArray not = new org.json.JSONArray();
+                if (list != null) {
+                    for (int i = 0; i < list.length(); i++) {
+                        String u = list.optString(i);
+                        if (OfflineAudio.has(this, u)) have.put(u); else not.put(u);
+                    }
+                }
+                JSONObject o = new JSONObject();
+                o.put("t", "dlstat");
+                o.put("have", have);
+                o.put("not", not);
+                o.put("size", OfflineAudio.totalSize(this));
+                o.put("count", OfflineAudio.count(this));
+                send(o);
+            } else if ("dldel".equals(optString)) {
+                OfflineAudio.delete(this, jSONObject.optString("u"));
+                JSONObject o = new JSONObject();
+                o.put("t", "dlstat");
+                o.put("not", new org.json.JSONArray().put(jSONObject.optString("u")));
+                o.put("size", OfflineAudio.totalSize(this));
+                o.put("count", OfflineAudio.count(this));
+                send(o);
+            } else if ("dlclear".equals(optString)) {
+                OfflineAudio.clear(this);
+                JSONObject o = new JSONObject();
+                o.put("t", "dlstat");
+                o.put("cleared", true);
+                o.put("size", 0);
+                o.put("count", 0);
+                send(o);
             } else if ("bars".equals(optString)) {
                 setBarColors(jSONObject.optString("t"), jSONObject.optString("b"));
             }
