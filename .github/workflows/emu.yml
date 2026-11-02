@@ -1,0 +1,45 @@
+name: Emulator test
+on:
+  push:
+    branches: [emu-test]
+permissions:
+  contents: write
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          script: |
+            mkdir -p res
+            adb install -r app.apk > res/install.txt 2>&1 || true
+            adb shell pm grant com.haydar.sirat android.permission.POST_NOTIFICATIONS || true
+            adb logcat -c
+            adb shell am start -n com.haydar.sirat/com.haydar.raqeeb.MainActivity
+            sleep 25
+            adb exec-out screencap -p > res/1-start.png
+            adb shell input tap 540 1200 || true
+            sleep 3
+            adb exec-out screencap -p > res/2.png
+            adb shell pidof com.haydar.sirat > res/pid.txt || echo none > res/pid.txt
+            adb logcat -d -v brief > res/logcat-all.txt || true
+            grep -E "AndroidRuntime|chromium|Console|FATAL|sirat" res/logcat-all.txt | tail -300 > res/logcat.txt || true
+            rm res/logcat-all.txt
+      - name: Push results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f res || true
+          git commit -qm "emulator results" || true
+          git push origin HEAD:emu-test
