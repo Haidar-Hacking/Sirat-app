@@ -52,7 +52,7 @@ android {
     }
 
     androidResources {
-        noCompress += ['mp3', 'woff', 'json']
+        noCompress += ['mp3', 'woff']
     }
 
     buildFeatures {
