@@ -28,7 +28,8 @@ android {
         // نسخة GitHub: ملف APK يحدّث نفسه من صفحة التطبيق على GitHub
         github { dimension "store" }
         // نسخة متجر Google Play: ملف AAB، والتحديث من المتجر نفسه
-        play { dimension "store" }
+        // متجر بلاي يطلب أندرويد 7 (SDK 24) كحد أدنى لميزة «الحماية التلقائية»
+        play { dimension "store"; minSdk 24 }
     }
 
     if (canSign) {
