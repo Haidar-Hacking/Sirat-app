@@ -31,6 +31,10 @@ jobs:
             adb shell input tap 540 1200 || true
             sleep 3
             adb exec-out screencap -p > res/2.png
+            adb shell am force-stop com.haydar.sirat
+            adb shell am start -n com.haydar.sirat/com.haydar.raqeeb.MainActivity
+            sleep 12
+            adb exec-out screencap -p > res/3-restart.png
             adb shell pidof com.haydar.sirat > res/pid.txt || echo none > res/pid.txt
             adb logcat -d -v brief > res/logcat-all.txt || true
             grep -E "AndroidRuntime|chromium|Console|FATAL|sirat" res/logcat-all.txt | tail -300 > res/logcat.txt || true
