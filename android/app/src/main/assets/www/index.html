@@ -3917,27 +3917,25 @@ libListHTML=function(cat){
   return n?o:'<section class="card"><p class="hint">لا يوجد محتوى هنا.</p></section>';
 };
 
-/* ---------- حجم الخط وحجم الأزرار ---------- */
-var _szst=document.createElement('style');_szst.id='szcss';_szst.textContent='html{--fz:1}#view{zoom:var(--fz)}html[data-bz="1"] .htic{width:58px!important;height:58px!important}html[data-bz="1"] .htic svg,html[data-bz="1"] .hti{width:31px;height:31px}html[data-bz="1"] .htool{min-height:104px}html[data-bz="1"] .tool{min-height:94px}html[data-bz="1"] .librow{min-height:78px}html[data-bz="1"] .qb,html[data-bz="1"] .mb{min-height:54px}html[data-bz="1"] .icon{width:54px;height:54px}html[data-bz="1"] .tab{min-height:54px}html[data-bz="1"] .tab .tbi{width:28px;height:28px}html[data-bz="2"] .htic{width:68px!important;height:68px!important}html[data-bz="2"] .htic svg,html[data-bz="2"] .hti{width:37px;height:37px}html[data-bz="2"] .htool{min-height:122px}html[data-bz="2"] .tool{min-height:110px}html[data-bz="2"] .librow{min-height:94px}html[data-bz="2"] .qb,html[data-bz="2"] .mb{min-height:64px}html[data-bz="2"] .icon{width:64px;height:64px}html[data-bz="2"] .tab{min-height:64px}html[data-bz="2"] .tab .tbi{width:33px;height:33px}.szrow{margin:6px 0 14px}.szrow>span{display:block;font-weight:700;margin-bottom:8px}.szrow .mode{max-width:none}';document.head.appendChild(_szst);
-var SZ_FZ=[['صغير',.92],['عادي',1],['كبير',1.12],['كبير جداً',1.26]],SZ_BZ=['عادي','كبير','كبير جداً'];
-var SZ={fz:1,bz:0};
-try{var _f=parseInt(localStorage.getItem('sirat:fz'),10),_b=parseInt(localStorage.getItem('sirat:bz'),10);if(_f>=0&&_f<SZ_FZ.length)SZ.fz=_f;if(_b>=0&&_b<SZ_BZ.length)SZ.bz=_b;}catch(e){}
-function szApply(){var r=document.documentElement;r.style.setProperty('--fz',String(SZ_FZ[SZ.fz][1]));r.setAttribute('data-bz',String(SZ.bz));}
-szApply();
-function szSeg(key,names,cur){return '<div class="mode" role="group">'+names.map(function(n,i){return '<button type="button" class="mb" data-sz="'+key+':'+i+'" aria-pressed="'+(i===cur?'true':'false')+'">'+n+'</button>';}).join('')+'</div>';}
-var _szRS=renderSettings;
+/* ---------- حجم العدّاد ---------- */
+var _szst=document.createElement('style');_szst.id='szcss';_szst.textContent='html{--cz:1}.muscnt{width:calc(52px*var(--cz))!important;height:calc(52px*var(--cz))!important}.muscnt b{font-size:calc(19px*var(--cz))!important}.muscnt span{font-size:calc(9.5px*var(--cz))!important}.libcnt{width:calc(66px*var(--cz))!important;height:calc(66px*var(--cz))!important}.libcnt b{font-size:calc(22px*var(--cz))!important}.libcnt span{font-size:calc(10.5px*var(--cz))!important}.bzn{min-height:calc(56px*var(--cz))!important}.szrow{margin:6px 0 14px}.szrow .mode{max-width:none}';document.head.appendChild(_szst);
+var SZ_CZ=[['صغير',.8],['عادي',1],['كبير',1.3],['كبير جداً',1.6]];
+var SZ_I=1;
+try{var _c=parseInt(localStorage.getItem('sirat:cz'),10);if(_c>=0&&_c<SZ_CZ.length)SZ_I=_c;}catch(e){}
+function czApply(){document.documentElement.style.setProperty('--cz',String(SZ_CZ[SZ_I][1]));}
+czApply();
+var _czRS=renderSettings;
 renderSettings=function(){
-  _szRS();
+  _czRS();
   var a=view.querySelector('.setlook');if(!a)return;
   var d=document.createElement('section');d.className='card';
-  d.innerHTML=sec('حجم الخط والأزرار')+'<div class="szrow"><span>حجم الخط</span>'+szSeg('fz',SZ_FZ.map(function(x){return x[0];}),SZ.fz)+'</div><div class="szrow"><span>حجم الأزرار</span>'+szSeg('bz',SZ_BZ,SZ.bz)+'</div><p class="hint">يُطبَّق على كل صفحات التطبيق فوراً، ويبقى محفوظاً.</p>';
+  d.innerHTML=sec('حجم العدّاد')+'<div class="szrow"><div class="mode" role="group">'+SZ_CZ.map(function(x,i){return '<button type="button" class="mb" data-cz="'+i+'" aria-pressed="'+(i===SZ_I?'true':'false')+'">'+x[0]+'</button>';}).join('')+'</div></div><p class="hint">يغيّر حجم عدّاد المصحف وعدّاد الأدعية والمسبحة، ويبقى محفوظاً.</p>';
   a.parentNode.insertBefore(d,a);
 };
 view.addEventListener('click',function(e){
-  var t=e.target.closest&&e.target.closest('[data-sz]');if(!t)return;
-  var p=t.getAttribute('data-sz').split(':'),k=p[0],i=+p[1];
-  SZ[k]=i;try{localStorage.setItem('sirat:'+k,String(i));}catch(x){}
-  szApply();
+  var t=e.target.closest&&e.target.closest('[data-cz]');if(!t)return;
+  SZ_I=+t.getAttribute('data-cz');try{localStorage.setItem('sirat:cz',String(SZ_I));}catch(x){}
+  czApply();
   t.parentNode.querySelectorAll('.mb').forEach(function(b){b.setAttribute('aria-pressed',b===t?'true':'false');});
 });
 
@@ -4050,7 +4048,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.6.7';
+var APP_VERSION='3.6.8';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
