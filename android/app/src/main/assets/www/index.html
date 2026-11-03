@@ -3018,7 +3018,7 @@ var LIB_IC={
   tilawa:HICON.mus,
   fav:'<path d="M12 4l2.4 5 5.4.7-4 3.8 1 5.4L12 16.3 7.2 18.9l1-5.4-4-3.8 5.4-.7z"/>'
 };
-function libIcon(k){return '<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true">'+(LIB_IC[k]||LIB_IC.dua)+'</svg>';}
+function libIcon(k){return '<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true">'+(k==='rug'?RUG_IC:(LIB_IC[k]||LIB_IC.dua))+'</svg>';}
 function isoWd(d){var g=d.getDay();return g===0?7:g;}
 function readMin(o){var m=Math.max(1,Math.round(o._len/900));return m===1?'دقيقة واحدة':(m===2?'دقيقتان':ar(m)+(m<=10?' دقائق':' دقيقة'));}
 function libFind(f){return LIB.items.filter(f);}
@@ -3042,7 +3042,7 @@ function libToday(){
   return r;
 }
 function libRow(o,lab){
-  return '<button type="button" class="librow" data-libopen="'+o.id+'"><span class="lbic">'+libIcon(o.c)+'</span><span class="lbtx"><b>'+esc(o.t)+'</b><span>'+(lab?esc(lab)+' · ':'')+(o.w?esc(o.w)+' · ':'')+readMin(o)+'</span></span>'+(LIB.fav[o.id]?'<i class="lbfav" aria-label="في المفضلة">★</i>':'')+'</button>';
+  return '<button type="button" class="librow" data-libopen="'+o.id+'"><span class="lbic">'+libIcon(o.id==='sc_F2'?'rug':o.c)+'</span><span class="lbtx"><b>'+esc(o.t)+'</b><span>'+(lab?esc(lab)+' · ':'')+(o.w?esc(o.w)+' · ':'')+readMin(o)+'</span></span>'+(LIB.fav[o.id]?'<i class="lbfav" aria-label="في المفضلة">★</i>':'')+'</button>';
 }
 function libHomeHTML(){
   var t=libToday(),o='';
@@ -3917,6 +3917,29 @@ libListHTML=function(cat){
   return n?o:'<section class="card"><p class="hint">لا يوجد محتوى هنا.</p></section>';
 };
 
+/* ---------- حجم الخط وحجم الأزرار ---------- */
+var SZ_FZ=[['صغير',.92],['عادي',1],['كبير',1.12],['كبير جداً',1.26]],SZ_BZ=['عادي','كبير','كبير جداً'];
+var SZ={fz:1,bz:0};
+try{var _f=parseInt(localStorage.getItem('sirat:fz'),10),_b=parseInt(localStorage.getItem('sirat:bz'),10);if(_f>=0&&_f<SZ_FZ.length)SZ.fz=_f;if(_b>=0&&_b<SZ_BZ.length)SZ.bz=_b;}catch(e){}
+function szApply(){var r=document.documentElement;r.style.setProperty('--fz',String(SZ_FZ[SZ.fz][1]));r.setAttribute('data-bz',String(SZ.bz));}
+szApply();
+function szSeg(key,names,cur){return '<div class="mode" role="group">'+names.map(function(n,i){return '<button type="button" class="mb" data-sz="'+key+':'+i+'" aria-pressed="'+(i===cur?'true':'false')+'">'+n+'</button>';}).join('')+'</div>';}
+var _szRS=renderSettings;
+renderSettings=function(){
+  _szRS();
+  var a=view.querySelector('.setlook');if(!a)return;
+  var d=document.createElement('section');d.className='card';
+  d.innerHTML=sec('حجم الخط والأزرار')+'<div class="szrow"><span>حجم الخط</span>'+szSeg('fz',SZ_FZ.map(function(x){return x[0];}),SZ.fz)+'</div><div class="szrow"><span>حجم الأزرار</span>'+szSeg('bz',SZ_BZ,SZ.bz)+'</div><p class="hint">يُطبَّق على كل صفحات التطبيق فوراً، ويبقى محفوظاً.</p>';
+  a.parentNode.insertBefore(d,a);
+};
+view.addEventListener('click',function(e){
+  var t=e.target.closest&&e.target.closest('[data-sz]');if(!t)return;
+  var p=t.getAttribute('data-sz').split(':'),k=p[0],i=+p[1];
+  SZ[k]=i;try{localStorage.setItem('sirat:'+k,String(i));}catch(x){}
+  szApply();
+  t.parentNode.querySelectorAll('.mb').forEach(function(b){b.setAttribute('aria-pressed',b===t?'true':'false');});
+});
+
 /* ---------- خاص بتطبيق أندرويد: النسخ الاحتياطي وتنبيهات الأذان ---------- */
 (function(){
   var N=window.RaqeebNative;if(!N)return;
@@ -4026,7 +4049,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.6.6';
+var APP_VERSION='3.6.7';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
