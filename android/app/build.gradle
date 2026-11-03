@@ -3,8 +3,8 @@ plugins {
 }
 
 // رقم الإصدار: ارفعه قبل كل تحديث، ويجب أن يطابق APP_VERSION في assets/www/index.html
-def appVersionName = "3.6.3"
-def appVersionCode = 363
+def appVersionName = "3.6.4"
+def appVersionCode = 364
 
 // التوقيع: يُقرأ من متغيرات البيئة (أسرار GitHub). إذا لم توجد يُبنى ملف غير موقّع.
 def ksFile = System.getenv("KEYSTORE_FILE")
