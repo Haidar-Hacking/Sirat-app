@@ -3238,6 +3238,7 @@ var TOOLS=[
   ['qibla','القبلة والمراقد','بوصلة الكعبة واتجاه المراقد المقدسة',HICON.qibla],
   ['tasbih','المسبحة','تسبيح الزهراء (ع) وأذكارك الخاصة',HICON.tasbih],
   ['nawafil','النوافل','النوافل اليومية وصلاة الليل وصلوات مستحبة','<path d="M4 20h16"/><path d="M6 20V10l6-5 6 5v10"/><path d="M10 20v-5a2 2 0 0 1 4 0v5"/>'],
+  ['nightprayer','صلاة الليل','١١ ركعة: ثمان نافلة وشفع ووتر، مع القنوت والأدعية','<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/><path d="M16.5 4.5v3M15 6h3"/>'],
   ['taqibat','التعقيبات','العامة بعد كل صلاة والخاصة بالصبح والظهر والعصر والمغرب والعشاء','<circle cx="7" cy="9" r="2"/><circle cx="12" cy="6.5" r="2"/><circle cx="17" cy="9" r="2"/><circle cx="8.5" cy="15.5" r="2"/><circle cx="15.5" cy="15.5" r="2"/>'],
   ['jumua','أعمال يوم الجمعة','المستحبات والأعمال والأدعية والزيارات','<rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/><path d="M12 12.4l.9 1.8 2 .3-1.4 1.4.3 2-1.8-.9-1.8.9.3-2-1.4-1.4 2-.3z"/>'],
   ['weekdays','أعمال أيام الأسبوع','دعاء كل يوم وزيارته وأعماله','<rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M9 4v3M15 4v3"/>'],
@@ -3472,6 +3473,17 @@ function renderWeekdays(){
   });
   view.innerHTML=o;
 }
+function renderNightPrayer(){
+  libLoad();
+  var T=[['ثمان ركعات','نافلة الليل'],['ركعتان','الشفع'],['ركعة','الوتر']];
+  var o=moreBar('صلاة الليل');
+  o+='<section class="card">'+sec('صلاة الليل')+'<p class="hint">إحدى عشرة ركعة: ثمان ركعات نافلة الليل (تُصلّى ركعتين ركعتين)، ثم ركعتا الشفع، ثم ركعة الوتر.</p><div class="grid2">'
+    +T.map(function(r){return '<div class="tile"><span>'+r[1]+'</span><b style="font-size:20px">'+r[0]+'</b></div>';}).join('')
+    +'</div></section>';
+  o+='<section class="card">'+sec('وقتها')+'<p class="hint">من منتصف الليل الشرعي إلى طلوع الفجر الصادق، وأفضله وقت السحر قبل الفجر. ويجوز تقديمها قبل منتصف الليل للمسافر ومن يخشى أن تفوته. وراجع رسالتك العملية لتفاصيل الوقت.</p><p class="hint">ويجوز الاقتصار على الشفع والوتر (ثلاث ركعات) إن ضاق الوقت أو تعذّر الباقي.</p></section>';
+  o+='<section class="card">'+sec('الأداء والأدعية')+libRows(['sc_F2'])+'</section>';
+  view.innerHTML=o;
+}
 function renderTaqibat(){
   libLoad();
   var P=[['الصبح',['taqib_t_fajr','dua_ahd']],['الظهر',['taqib_t_dhuhr']],['العصر',['taqib_t_asr','taqib_asr']],['المغرب',['taqib_t_maghrib','ghufayla']],['العشاء',['taqib_t_isha']]];
@@ -3500,7 +3512,7 @@ view.addEventListener('click',function(e){
   var t=e.target.closest&&e.target.closest('[data-xo],[data-libopen],[data-libgo],[data-libback]');if(!t)return;
   var v;
   if((v=t.getAttribute('data-xo'))){libLoad();LIB.ret='more';LIB.open=v;state.tab='dua';render();window.scrollTo(0,0);e.stopPropagation();return;}
-  if(t.hasAttribute('data-libopen')){LIB.ret=(state.tab==='nawafil'||state.tab==='taqibat'||state.tab==='jumua'||state.tab==='weekdays')?state.tab:null;return;}
+  if(t.hasAttribute('data-libopen')){LIB.ret=(state.tab==='nawafil'||state.tab==='taqibat'||state.tab==='jumua'||state.tab==='weekdays'||state.tab==='nightprayer')?state.tab:null;return;}
   if(t.hasAttribute('data-libgo')){LIB.ret=null;return;}
   if(t.hasAttribute('data-libback')&&LIB.ret){var r=LIB.ret;LIB.ret=null;LIB.open=null;state.tab=r;render();window.scrollTo(0,0);e.stopPropagation();}
 },true);
@@ -3545,15 +3557,15 @@ function qasSync(){
 document.addEventListener('click',function(){setTimeout(qasSync,60);},true);
 ['touchstart','wheel'].forEach(function(ev){window.addEventListener(ev,function(e){if(QAS.lv&&!(e.target.closest&&e.target.closest('#qauto')))qasSet(0);},{passive:true});});
 
-var SUBV=['more','qibla','tasbih','cal','times','convert','settings','fav','nawafil','taqibat','jumua','weekdays'];
+var SUBV=['more','qibla','tasbih','cal','times','convert','settings','fav','nawafil','taqibat','jumua','weekdays','nightprayer'];
 var _mRender=render;
 render=function(){
   var t=state.tab;
   if(t!=='qibla'&&QB.tgt&&t!=='settings'){}
-  if(t==='more'||t==='times'||t==='convert'||t==='settings'||t==='fav'||t==='nawafil'||t==='taqibat'||t==='jumua'||t==='weekdays'){
+  if(t==='more'||t==='times'||t==='convert'||t==='settings'||t==='fav'||t==='nawafil'||t==='taqibat'||t==='jumua'||t==='weekdays'||t==='nightprayer'){
     dirtyRender=false;if(typeof qActHide==='function')qActHide();qbStop();
     document.body.classList.remove('is-home');view.setAttribute('data-v',t);
-    ({more:renderMore,times:renderTimes,convert:renderConvert,settings:renderSettings,fav:renderFav,nawafil:renderNawafil,taqibat:renderTaqibat,jumua:renderJumua,weekdays:renderWeekdays})[t]();
+    ({more:renderMore,times:renderTimes,convert:renderConvert,settings:renderSettings,fav:renderFav,nawafil:renderNawafil,taqibat:renderTaqibat,jumua:renderJumua,weekdays:renderWeekdays,nightprayer:renderNightPrayer})[t]();
   }else _mRender();
   var sel=SUBV.indexOf(t)>=0?'more':t;
   ['home','day','dua','mus','cal','more'].forEach(function(id){var b=document.getElementById('tab-'+id);if(b)b.setAttribute('aria-selected',id===sel?'true':'false');});
@@ -4013,7 +4025,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)adhSt
 /* ---------- تنبيه «يوجد تحديث للتطبيق» (نسخة أندرويد) ----------
    يقرأ رقم آخر إصدار من صفحة التطبيق على GitHub، ويعرض نافذة التحديث.
    زر «تحديث الآن» يفتح ملف التحديث في المتصفح، ثم يثبّته المستخدم بنفسه من نافذة أندرويد. */
-var APP_VERSION='3.6.4';
+var APP_VERSION='3.6.5';
 var UPD_OFF=false; /* نسخة متجر Google Play تجعله true من داخل التطبيق: التحديث هناك من المتجر */
 var UPD_JSON='https://raw.githubusercontent.com/Haidar-Hacking/Sirat-app/main/version.json';
 var UPD_PAGE='https://github.com/Haidar-Hacking/Sirat-app';
